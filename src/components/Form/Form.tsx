@@ -1,6 +1,6 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
-import { changeInputValue } from '../../store/reducers/chat';
+import { changeInputValue, addNewMessage } from '../../store/reducers/chat';
 import './Form.scss';
 
 function Form() {
@@ -14,8 +14,14 @@ function Form() {
     // j'emet l intention de changer la valeur de mon input avec la nouvelle valeur
     dispatch(changeInputValue(newValue));
   };
+  function handleSubmitAddMessage(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    // j'émet l'intention d'ajouter un message
+    dispatch(addNewMessage());
+  }
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSubmitAddMessage}>
       <input
         type="text"
         className="form__input"

@@ -32,7 +32,16 @@ const chatSlice = createSlice({
     changeInputValue: (state, action: PayloadAction<string>) => {
       state.inputValue = action.payload;
     },
+    addNewMessage(state) {
+      const newMessage = {
+        id: crypto.randomUUID(),
+        author: 'moi',
+        content: state.inputValue,
+      };
+      state.messages.push(newMessage);
+      state.inputValue = '';
+    },
   },
 });
-export const { changeInputValue } = chatSlice.actions;
+export const { changeInputValue, addNewMessage } = chatSlice.actions;
 export default chatSlice.reducer;
