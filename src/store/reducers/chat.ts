@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type Message = {
   id: string;
@@ -8,6 +8,7 @@ type Message = {
 
 type ChatState = {
   messages: Message[];
+  inputValue: string;
 };
 
 const initialState: ChatState = {
@@ -21,12 +22,17 @@ const initialState: ChatState = {
     },
     { id: crypto.randomUUID(), author: 'moi', content: 'ok' },
   ],
+  inputValue: 'Hey Cow Boy!',
 };
 
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
-  reducers: {},
+  reducers: {
+    changeInputValue: (state, action: PayloadAction<string>) => {
+      state.inputValue = action.payload;
+    },
+  },
 });
-
+export const { changeInputValue } = chatSlice.actions;
 export default chatSlice.reducer;
