@@ -1,3 +1,4 @@
+import { Send } from 'react-feather';
 import { ChangeEvent, FormEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { changeInputValue, addNewMessage } from '../../store/reducers/chat';
@@ -29,7 +30,7 @@ function Form() {
         onChange={handleChangeInputValue}
       />
       <button type="submit" className="form__button">
-        &gt
+        <Send />
       </button>
     </form>
   );
