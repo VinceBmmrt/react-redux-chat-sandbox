@@ -5,7 +5,7 @@ import { ChangeEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import {
   toggleSettings,
-  changeInputValue,
+  changeInputCredentialsValue,
 } from '../../store/reducers/settings';
 
 // Pour récupérer les données provenant de mon store, j'utilise useAppSelector
@@ -24,9 +24,16 @@ function Settings() {
   );
   function handleChangeEMail(event: ChangeEvent<HTMLInputElement>): void {
     const newValue = event.target.value;
-    dispatch(changeInputValue(newValue));
+    dispatch(
+      changeInputCredentialsValue({ fieldName: 'email', value: newValue })
+    );
   }
-
+  function handleChangePassword(event: ChangeEvent<HTMLInputElement>): void {
+    const newValue = event.target.value;
+    dispatch(
+      changeInputCredentialsValue({ fieldName: 'password', value: newValue })
+    );
+  }
   return (
     <div
       className={clsx('settings', {
@@ -53,6 +60,7 @@ function Settings() {
           className="settings__input"
           placeholder="mot de passe"
           value={passwordValue}
+          onChange={handleChangePassword}
         />
         <button type="submit" className="settings__submit">
           Envoyer
