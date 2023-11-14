@@ -14,6 +14,7 @@ const initialState: SettingsState = {
     password: 'tata',
   },
 };
+
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,
@@ -25,7 +26,9 @@ const settingsSlice = createSlice({
       state,
       action: PayloadAction<{
         // fieldName correspondra au nom du champ à modifier (email ou password)
-        fieldName: 'email' | 'password';
+        // keyof permet de récupérer la liste des propriétés d'un type
+        fieldName: keyof SettingsState['credentials'];
+
         // value correspondra à la valeur à mettre dans le champ
         value: string;
       }>
