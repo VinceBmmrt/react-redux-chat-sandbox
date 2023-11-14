@@ -1,6 +1,7 @@
 import './Settings.scss';
 import clsx from 'clsx';
 import { X } from 'react-feather';
+import { ChangeEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import {
   toggleSettings,
