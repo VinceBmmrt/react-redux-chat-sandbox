@@ -1,8 +1,8 @@
 import './Settings.scss';
 import { useAppSelector } from '../../hooks/redux';
 // Pour récupérer les données provenant de mon store, j'utilise useAppSelector
-const isSettingsOpened = useAppSelector((state) => state.settings.isOpen);
 function Settings() {
+  const isSettingsOpened = useAppSelector((state) => state.settings.isOpen);
   return (
     <div className="settings">
       Settings
