@@ -1,3 +1,6 @@
+import { render } from 'react-dom';
+import store from '../../store';
+
 type MessageProps = {
   author: string;
   content: string;

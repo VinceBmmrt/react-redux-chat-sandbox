@@ -1,39 +1,72 @@
-import './Settings.scss';
+import { ChangeEvent, FormEvent } from 'react';
 import clsx from 'clsx';
 import { X } from 'react-feather';
-import { ChangeEvent } from 'react';
-import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
+  changeInputCredentialValue,
+  login,
   toggleSettings,
-  changeInputCredentialsValue,
 } from '../../store/reducers/settings';
+import './Settings.scss';
 
-// Pour récupérer les données provenant de mon store, j'utilise useAppSelector
 function Settings() {
+  // On veut emettre une intention, j'ai donc besoin de récupérer la fonction dispatch de mon store redux
   const dispatch = useAppDispatch();
-
+  // Pour récupérer les données provenant de mon store, j'utilise useAppSelector
   const isSettingsOpened = useAppSelector((state) => state.settings.isOpen);
-  function handleClickToggle(): void {
-    dispatch(toggleSettings());
-  }
   const emailValue = useAppSelector(
     (state) => state.settings.credentials.email
   );
   const passwordValue = useAppSelector(
     (state) => state.settings.credentials.password
   );
-  function handleChangeEMail(event: ChangeEvent<HTMLInputElement>): void {
+  const isLoading = useAppSelector((state) => state.settings.isLoading);
+  const errorMsg = useAppSelector((state) => state.settings.error);
+
+  // Quand je click sur mon bouton toggle
+  const handleClickToggle = () => {
+    // Je vais vouloir emettre l'intention d'inverser la valeur de isOpen
+    dispatch(toggleSettings());
+  };
+
+  const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
+
+    // J'emet l'intention de changer la valeur de mon email
     dispatch(
-      changeInputCredentialsValue({ fieldName: 'email', value: newValue })
+      changeInputCredentialValue({
+        fieldName: 'email',
+        value: newValue,
+      })
     );
-  }
-  function handleChangePassword(event: ChangeEvent<HTMLInputElement>): void {
+  };
+
+  const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
+
+    // J'emet l'intention de changer la valeur de mon password
     dispatch(
-      changeInputCredentialsValue({ fieldName: 'password', value: newValue })
+      changeInputCredentialValue({
+        fieldName: 'password',
+        value: newValue,
+      })
     );
-  }
+  };
+
+  // A la soumission de mon formulaire
+  const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // J'emet l'intention de me connecter
+    // Cette intention est une action asynchrone
+    dispatch(
+      login({
+        email: emailValue,
+        password: passwordValue,
+      })
+    );
+  };
+
   return (
     <div
       className={clsx('settings', {
@@ -47,24 +80,31 @@ function Settings() {
       >
         <X />
       </button>
-      <form className="settings__form">
+
+      <form
+        // Je rajoute la class loader si une connexion est en cours
+        className={clsx('settings__form', { loader: isLoading })}
+        onSubmit={handleSubmitForm}
+      >
         <input
           type="email"
           className="settings__input"
+          placeholder="Email"
           value={emailValue}
-          placeholder="email"
-          onChange={handleChangeEMail}
+          onChange={handleChangeEmail}
         />
         <input
           type="password"
           className="settings__input"
-          placeholder="mot de passe"
+          placeholder="Mot de passe"
           value={passwordValue}
           onChange={handleChangePassword}
         />
         <button type="submit" className="settings__submit">
           Envoyer
         </button>
+
+        {errorMsg && <div>{errorMsg}</div>}
       </form>
     </div>
   );
