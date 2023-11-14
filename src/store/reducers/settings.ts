@@ -9,7 +9,11 @@ const initialState: SettingsState = {
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleSettings: (state) => {
+      state.isOpen = !state.isOpen;
+    },
+  },
 });
-
+export const { toggleSettings } = settingsSlice.actions;
 export default settingsSlice.reducer;
