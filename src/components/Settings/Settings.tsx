@@ -12,7 +12,12 @@ function Settings() {
   function handleClickToggle(): void {
     dispatch(toggleSettings());
   }
-
+  const emailValue = useAppSelector(
+    (state) => state.settings.credentials.email
+  );
+  const passwordValue = useAppSelector(
+    (state) => state.settings.credentials.password
+  );
   return (
     <div
       className={clsx('settings', {
@@ -27,8 +32,18 @@ function Settings() {
         <X />
       </button>
       <form className="settings__form">
-        <input type="email" className="settings__input" />
-        <input type="password" className="settings__input" />
+        <input
+          type="email"
+          className="settings__input"
+          value={emailValue}
+          placeholder="email"
+        />
+        <input
+          type="password"
+          className="settings__input"
+          placeholder="mot de passe"
+          value={passwordValue}
+        />
         <button type="submit" className="settings__submit">
           Envoyer
         </button>
